@@ -19,7 +19,7 @@ def webhook():
             riesgo = "🔴 Posible estafa"
             break
 
-    msg.body(f"🔍 Análisis de posible estafa\n\nResultado: *{riesgo.upper()}*\n\n📩 Mensaje analizado:\n{incoming_msg}\n\n⚠️ Recomendación: *Si tenés dudas, no hagas clic en enlaces ni compartas datos personales.*")
+    msg.body(f"Se analizó tu mensaje y el resultado es:\n\n*{riesgo.upper()}*\n\n⚠️ Recomendación: *Si tenés dudas, no hagas clic en enlaces ni compartas datos personales.*")
 
     return str(resp)
 
