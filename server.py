@@ -6,11 +6,21 @@ app = Flask(__name__)
 @app.route("/webhook", methods=["POST"])
 def webhook():
     incoming_msg = request.values.get("Body", "").lower().strip()
+    num_media = int(request.values.get("NumMedia", 0))
 
     resp = MessagingResponse()
     msg = resp.message()
 
-    # 🟢 Mensajes de saludo o ayuda
+    # 🟣 Si envían imagen
+    if num_media > 0:
+        msg.body(
+            "📸 Recibí una imagen.\n\n"
+            "Por ahora no puedo analizar imágenes.\n\n"
+            "⚠️ *Si tenés dudas, no avances ni compartas información personal.*"
+        )
+        return str(resp)
+
+    # 🟢 Saludos / ayuda
     saludos = ["hola", "buenas", "hello", "hi"]
     ayuda = ["ayuda", "como funciona", "qué es", "que es", "info"]
 
@@ -18,11 +28,18 @@ def webhook():
         msg.body(
             "👋 Hola! Soy AlertaEstafas\n\n"
             "Te ayudo a detectar si un mensaje puede ser una estafa.\n\n"
-            "📩 ¿Qué podés hacer?\n"
-            "Reenviame cualquier mensaje sospechoso (texto, link, etc.) y lo analizo.\n\n"
-            "Ejemplo:\n"
-            "'Ganaste un premio, hacé clic acá...'\n\n"
-            "Y te digo si es seguro o peligroso."
+            "📩 Reenviame cualquier mensaje sospechoso (texto o link) y lo analizo.\n\n"
+            "Cuando quieras, mandamelo 👇"
+        )
+        return str(resp)
+
+    # 🟡 Intención de enviar mensaje
+    continuar = ["ok", "dale", "bien", "listo", "ahí va", "ahi va", "te mando", "te paso", "ahora", "voy"]
+
+    if any(palabra in incoming_msg for palabra in continuar):
+        msg.body(
+            "Perfecto 👍\n\n"
+            "📩 Reenviá el mensaje sospechoso y lo analizo al instante."
         )
         return str(resp)
 
