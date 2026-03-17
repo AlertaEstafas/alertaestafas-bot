@@ -33,10 +33,11 @@ def webhook():
         )
         return str(resp)
 
-    # 🟡 Intención de enviar mensaje
-    continuar = ["ok", "dale", "bien", "listo", "ahí va", "ahi va", "te mando", "te paso", "ahora", "voy"]
-
-    if any(palabra in incoming_msg for palabra in continuar) and len(incoming_msg.split()) <= 4:
+    # 🟡 Intención de enviar mensaje (más inteligente)
+    if (
+        ("mando" in incoming_msg or "paso" in incoming_msg or "envio" in incoming_msg or "envío" in incoming_msg)
+        and ("mensaje" in incoming_msg or "esto" in incoming_msg or "algo" in incoming_msg)
+    ):
         msg.body(
             "Perfecto 👍\n\n"
             "📩 Reenviá el mensaje sospechoso y lo analizo al instante."
