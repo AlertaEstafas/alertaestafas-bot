@@ -24,7 +24,7 @@ def webhook():
     saludos = ["hola", "buenas", "hello", "hi"]
     ayuda = ["ayuda", "como funciona", "qué es", "que es", "info"]
 
-    if any(palabra in incoming_msg for palabra in saludos + ayuda):
+    if any(palabra in incoming_msg for palabra in saludos + ayuda) and len(incoming_msg.split()) <= 3:
         msg.body(
             "👋 Hola! Soy AlertaEstafas\n\n"
             "Te ayudo a detectar si un mensaje puede ser una estafa.\n\n"
@@ -36,7 +36,7 @@ def webhook():
     # 🟡 Intención de enviar mensaje
     continuar = ["ok", "dale", "bien", "listo", "ahí va", "ahi va", "te mando", "te paso", "ahora", "voy"]
 
-    if any(palabra in incoming_msg for palabra in continuar):
+    if any(palabra in incoming_msg for palabra in continuar) and len(incoming_msg.split()) <= 4:
         msg.body(
             "Perfecto 👍\n\n"
             "📩 Reenviá el mensaje sospechoso y lo analizo al instante."
