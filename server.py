@@ -43,6 +43,16 @@ def webhook():
         )
         return str(resp)
 
+    # 🟢 Mensajes de cierre / agradecimiento
+    cierre = ["gracias", "muy bueno", "genial", "perfecto", "me sirvio", "me sirvió", "excelente"]
+
+    if any(palabra in incoming_msg for palabra in cierre):
+        msg.body(
+            "🙌 Me alegro de haberte ayudado\n\n"
+            "📩 Si querés, podés enviarme otro mensaje sospechoso y lo analizo."
+        )
+        return str(resp)
+
     # 🔴 Análisis de estafa
     sospechoso = ["premio", "ganaste", "urgente", "transferencia", "clave", "banco", "link"]
 
