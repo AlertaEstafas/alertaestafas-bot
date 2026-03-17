@@ -7,10 +7,19 @@ app = Flask(__name__)
 def webhook():
     incoming_msg = request.values.get("Body", "")
 
-    resp = MessagingResponse()
-    msg = resp.message()
+resp = MessagingResponse()
+msg = resp.message()
 
-    msg.body(f"Recibí tu mensaje: {incoming_msg}. Lo estoy analizando para detectar posibles estafas.")
+sospechoso = ["premio", "ganaste", "urgente", "transferencia", "clave", "banco", "link"]
+
+riesgo = "🟢 Bajo riesgo"
+
+for palabra in sospechoso:
+    if palabra in incoming_msg.lower():
+        riesgo = "🔴 Posible estafa"
+        break
+
+msg.body(f"Análisis:\n{riesgo}\n\nMensaje recibido:\n{incoming_msg}")
 
     return str(resp)
 
